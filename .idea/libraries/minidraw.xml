@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="minidraw">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/frameworks/lib/minidraw.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

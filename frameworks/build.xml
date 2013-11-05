@@ -1,0 +1,120 @@
+<!-- Build file for HotGammon.
+
+   This source code is from the book 
+     "Flexible, Reliable Software:
+       Using Patterns and Agile Development"
+     published 2010 by CRC Press.
+   Author: 
+     Henrik B Christensen 
+     Computer Science Department
+     Aarhus University
+   
+   This source code is provided WITHOUT ANY WARRANTY either 
+   expressed or implied. You may study, use, modify, and 
+   distribute it for non-commercial purposes. For any 
+   commercial use, see http://www.baerbak.com/
+-->
+<project name="HotGammon" default="help" basedir=".">
+
+    <property name="sourceDirectory" value="src"/>
+    <property name="testSourceDirectory" value="test"/>
+    <property name="buildDirectory" value="build"/>
+    <property name="javadocDirectory" value="javadoc"/>
+    <property name="resource" value="resource"/>
+
+    <property name="minidrawJar" value="lib/minidraw.jar"/>
+
+    <path id="classPath">
+        <pathelement location="${buildDirectory}"/>
+        <pathelement location="${minidrawJar}"/>
+    </path>
+
+    <target name="help">
+        <echo>
+            HotGammon build management.
+            Targets:
+            buildSrc: Builds production code.
+            clean: Removes all bytecode.
+            javadoc: Generate JavaDoc.
+
+            show: Show basic graphics.
+            <!--
+
+               This source code is from the book
+                 "Flexible, Reliable Software:
+                   Using Patterns and Agile Development"
+                 published 2010 by CRC Press.
+               Author:
+                 Henrik B Christensen
+                 Computer Science Department
+                 Aarhus University
+
+               This source code is provided WITHOUT ANY WARRANTY either
+               expressed or implied. You may study, use, modify, and
+               distribute it for non-commercial purposes. For any
+               commercial use, see http://www.baerbak.com/
+            -->
+        </echo>
+    </target>
+
+    <target name="clean">
+        <delete dir="${buildDirectory}"/>
+        <delete dir="${javadocDirectory}"/>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${buildDirectory}"/>
+        <mkdir dir="${javadocDirectory}"/>
+    </target>
+
+    <target name="buildSrc" depends="prepare">
+        <javac srcdir="${sourceDirectory}"
+               destdir="${buildDirectory}">
+            <classpath refid="classPath"/>
+        </javac>
+    </target>
+
+    <target name="buildTest" depends="buildSrc">
+        <javac srcdir="${testSourceDirectory}"
+               destdir="${buildDirectory}">
+            <classpath refid="classPath"/>
+        </javac>
+    </target>
+
+    <target name="copyResource" depends="prepare">
+        <copy todir="${buildDirectory}\${resource}">
+            <fileset dir="${resource}">
+                <include name="*.gif"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="buildAll" depends="buildSrc,buildTest,copyResource"/>
+
+
+    <!-- run simple 'show graphics' minidraw application -->
+    <target name="show" depends="buildAll">
+        <java fork="yes" classname="hotgammon.visual.ShowCheckersAndDice">
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+        </java>
+    </target>
+
+
+    <!-- generate javadoc -->
+    <target name="javadoc" depends="prepare">
+        <javadoc
+                packagenames="hotgammon.*"
+                destdir="${javadocDirectory}"
+                sourcepath="${sourceDirectory}"
+                windowtitle="HotGammon system">
+
+            <classpath refid="classPath"/>
+        </javadoc>
+        <echo>
+            JavaDoc available in directory ${javadocDirectory}/index.html.
+        </echo>
+    </target>
+
+</project>

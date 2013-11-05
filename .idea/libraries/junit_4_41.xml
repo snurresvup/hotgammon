@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="junit-4.41">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/patterns/gerry/junit-4.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
